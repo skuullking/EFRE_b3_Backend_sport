@@ -82,6 +82,11 @@ app.get("/api/status", (req, res) => {
   res.json({ status: "ok", time: new Date().toISOString() });
 });
 
+const swaggerSetup = require("./swagger-setup");
+
+// Après avoir configuré vos routes
+swaggerSetup(app);
+
 app.get("/pinte", (req, res) => {
   res.send("+1 pinte");
 });
