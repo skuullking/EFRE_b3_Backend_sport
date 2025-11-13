@@ -94,6 +94,8 @@ class Exercise {
     if (Level !== undefined) exercise.Level = Level;
     if (Rating !== undefined) exercise.Rating = Rating;
     if (Rating !== undefined) exercise.Rating = Rating;
+
+    return await exercise.save();
   }
 
   static async delete(id) {
