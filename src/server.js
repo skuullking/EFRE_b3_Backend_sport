@@ -5,7 +5,16 @@ const PORT = 3000;
 const { pool } = require("./config/db.postgres");
 const { connectMongo } = require("./config/db.mongo");
 
-app.use(cors());
+// Configuration CORS
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL || "http://localhost:3000",
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
+
 app.use(express.json());
 
 // Connexion aux bases de données avant de démarrer le serveur
@@ -76,7 +85,10 @@ const exerciseRoutes = require("./routes/exercise.routes");
 app.use("/api/exercises", exerciseRoutes);
 const workoutRoutes = require("./routes/workout.routes");
 app.use("/api/workouts", workoutRoutes);
-
+const userRoutes = require("./routes/user.routes");
+app.use("/api/users", userRoutes);
+const authRoutes = require("./routes/auth.routes");
+app.use("/api/auth", authRoutes);
 // Health
 app.get("/api/status", (req, res) => {
   res.json({ status: "ok", time: new Date().toISOString() });
