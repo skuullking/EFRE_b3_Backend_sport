@@ -3,15 +3,22 @@ const app = express();
 const cors = require("cors");
 const PORT = process.env.PORT || 3000;
 const { connectMongo } = require("./config/db.mongo");
+const { pool } = require("./config/db.postgres");
 
+// Test des connexions aux bases de données
 app.get("/api/test-db", async (req, res) => {
   try {
+    // Test PostgreSQL
+    const pgResult = await pool.query("SELECT NOW()");
+
     // Test MongoDB
     await connectMongo();
 
     res.json({
       status: "ok",
+      postgresql: "Connected successfully",
       mongodb: "Connected successfully",
+      timestamp: pgResult.rows[0].now,
     });
   } catch (error) {
     res.status(500).json({
