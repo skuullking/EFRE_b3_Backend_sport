@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: efre-b3-backend-sport
+    runtime: node
+    env: node
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+    healthCheckPath: /health
+    autoDeploy:  true
+
+databases:
+  - name: efre-b3-db
+    databaseName: efre_b3_sport
+    user: efre_b3_user
+    plan: free
