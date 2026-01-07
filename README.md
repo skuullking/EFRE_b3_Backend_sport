@@ -5,18 +5,21 @@ Une application backend complète pour la gestion d'exercices, de workouts et d'
 ## 🚀 Fonctionnalités
 
 ### Exercices
+
 - Création et gestion d'exercices avec détails complets
 - Filtrage par titre, niveau, rating
 - Recherche insensible à la casse
 - Limitation des résultats ou récupération complète
 
 ### Workouts
+
 - Création de programmes d'entraînement personnalisés
 - Association d'exercices aux workouts
 - Gestion de la durée et de la date
 - Population automatique des exercices associés
 
 ### Utilisateurs
+
 - Gestion complète des utilisateurs
 - Suivi des workouts complétés
 - Historique de connexion
@@ -25,7 +28,7 @@ Une application backend complète pour la gestion d'exercices, de workouts et d'
 ## 🛠️ Stack Technique
 
 - **Backend**: Node.js, Express.js
-- **Bases de données**: 
+- **Bases de données**:
   - MongoDB (Exercises, Workouts)
   - PostgreSQL (Users)
 - **Authentification**: Bcrypt pour le hachage des mots de passe
@@ -38,36 +41,47 @@ Une application backend complète pour la gestion d'exercices, de workouts et d'
 - MongoDB
 - PostgreSQL
 - npm ou yarn
+- Docker et Docker Compose (optionnel, pour le déploiement)
 
 ## ⚙️ Installation
 
 1. **Cloner le repository**
+
 ```bash
 git clone <votre-repo>
 cd fitness-workout-manager
 ```
 
+### Node.js
+
 2. **Installer les dépendances**
+
 ```bash
 npm install
 ```
 
 3. **Configuration des bases de données**
 
-**MongoDB**: 
+**MongoDB**:
+
 - Assurez-vous que MongoDB est en cours d'exécution
 - L'application se connecte automatiquement à `mongodb://localhost:27017`
 
 **PostgreSQL**:
+
 - Créer une base de données PostgreSQL
 - Configurer la connexion dans `config/db.postgres.js`
 - Initialiser la table users :
+
 ```bash
 curl http://localhost:3000/init-db
 ```
 
+utiliser pgAdmin ou un autre outil pour exécuter le script SQL dans `sql/init.sql`.
+
 4. **Variables d'environnement**
-Créer un fichier `.env` :
+   Créer un fichier `.env` :
+
 ```env
 PORT=3000
 MONGODB_URI=mongodb://localhost:27017/fitness
@@ -78,16 +92,55 @@ PG_USER=your_username
 PG_PASSWORD=your_password
 ```
 
+### Docker (optionnel)
+
+1. **Variables d'environnement**
+   Créer un fichier `.env.docker` :
+
+```env
+PORT=3000
+MONGODB_URI=mongodb://mongo:27017/gimfit
+PGUSER=postgres
+PGHOST=postgres
+PGPASSWORD=password
+PGDATABASE=gimfit
+PGPORT=5432
+JWT_ACCESS_SECRET=secret
+JWT_REFRESH_SECRET=secret
+```
+
+2. **Construire et démarrer les conteneurs**
+
+```bash
+docker-compose up --build api
+```
+
 ## 🚀 Démarrage
 
+### Node.js
+
 **Mode développement :**
+
 ```bash
 npm run dev
 ```
 
 **Mode production :**
+
 ```bash
 npm start
+```
+
+### Docker
+
+```bash
+docker-compose up api
+```
+
+### Arrêter les conteneurs
+
+```bash
+docker-compose down
 ```
 
 L'application sera accessible sur `http://localhost:3000`
@@ -95,6 +148,7 @@ L'application sera accessible sur `http://localhost:3000`
 ## 📡 API Endpoints
 
 ### Exercices (`/api/exercises`)
+
 - `GET /` - Récupérer tous les exercices (avec filtres)
 - `GET /:id` - Récupérer un exercice par ID
 - `POST /` - Créer un nouvel exercice
@@ -102,6 +156,7 @@ L'application sera accessible sur `http://localhost:3000`
 - `DELETE /:id` - Supprimer un exercice
 
 ### Workouts (`/api/workouts`)
+
 - `GET /` - Récupérer tous les workouts
 - `GET /:id` - Récupérer un workout par ID
 - `POST /` - Créer un nouveau workout
@@ -109,6 +164,7 @@ L'application sera accessible sur `http://localhost:3000`
 - `DELETE /:id` - Supprimer un workout
 
 ### Utilisateurs (`/api/users`)
+
 - `GET /` - Récupérer tous les utilisateurs
 - `GET /:id` - Récupérer un utilisateur par ID
 - `POST /` - Créer un nouvel utilisateur
@@ -121,24 +177,28 @@ L'application sera accessible sur `http://localhost:3000`
 ## 🧪 Tests
 
 **Exécuter tous les tests :**
+
 ```bash
 npm test
 ```
 
 **Tests avec couverture :**
+
 ```bash
 npm run test:coverage
 ```
 
 **Tests en mode watch :**
+
 ```bash
 npm run test:watch
 ```
 
 ### Structure des tests
+
 - `tests/` - Contient tous les tests unitaires
   - `user.test.js` - Tests du contrôleur User
-  - `workout.test.js` - Tests du contrôleur Workout  
+  - `workout.test.js` - Tests du contrôleur Workout
   - `exercise.test.js` - Tests du contrôleur Exercise
 
 ## 🗂️ Structure du Projet
@@ -177,6 +237,7 @@ src/
 ## 🗃️ Modèles de Données
 
 ### Exercise (MongoDB)
+
 ```javascript
 {
   Title: String,
@@ -191,6 +252,7 @@ src/
 ```
 
 ### Workout (MongoDB)
+
 ```javascript
 {
   name: String,
@@ -202,6 +264,7 @@ src/
 ```
 
 ### User (PostgreSQL)
+
 ```sql
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
@@ -223,24 +286,10 @@ CREATE TABLE users (
 4. Push sur la branche (`git push origin feature/AmazingFeature`)
 5. Ouvrir une Pull Request
 
-## 📝 Licence
-
-Ce projet est sous licence MIT. Voir le fichier `LICENSE` pour plus de détails.
-
 ## 👥 Auteurs
 
-lucas  et yanis
+lucas et yanis
 
 ## 🆘 Support
 
 Si vous rencontrez des problèmes, veuillez ouvrir une issue sur le repository GitHub.
-```
-
-Ce README fournit une documentation complète pour votre application, incluant :
-- Les fonctionnalités principales
-- La stack technique utilisée
-- Les instructions d'installation et de configuration
-- La documentation de l'API
-- Les instructions pour exécuter les tests
-- La structure du projet
-- Et toutes les informations nécessaires pour comprendre et utiliser l'application

@@ -1,0 +1,43 @@
+version: "3.9"
+services:
+  mongo:
+    image: mongo:7
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+      - ./megaGymDataset.csv:/megaGymDataset.csv:ro
+      - ./sql/init-mongo.sh:/docker-entrypoint-initdb.d/init-mongo.sh:ro
+
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: gimfit
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+      # Initialisation automatique avec le schéma SQL au démarrage
+      - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d gimfit"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 5s
+
+  api:
+    build: ./
+    depends_on:
+      mongo:
+        condition: service_started
+      postgres:
+        condition: service_healthy
+    ports:
+      - "3000:3000"
+
+volumes:
+  mongo_data:
+  pg_data:
